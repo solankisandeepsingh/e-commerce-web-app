@@ -5,9 +5,19 @@ A modern e-commerce application built with **React**, **React Context API**, and
 ## Features
 
 ✨ **Product Catalog**
-- Display grid of 8 products with images, titles, descriptions, and prices
-- Responsive layout that works on desktop, tablet, and mobile devices
-- Clean, modern UI with hover effects and smooth transitions
+- Displays all products in a clean and modern card-based grid layout.
+- Each product card includes a high-quality image, product title, description, price, stock status, and an "Add to Cart" button.
+- Smooth hover effects and subtle animations for an enhanced user experience.
+- Responsive design optimized for desktop, tablet, and mobile devices.
+- Consistent spacing, typography, and styling for a professional appearance.
+- Dynamic product rendering from API data.
+- Fast and intuitive shopping experience with one-click cart addition
+
+🔍 Search & Filtering
+- Real-time product search with debounced API requests for improved performance.
+- Sort products by:
+  Price: Low to High
+  Price: High to Low
 
 🛒 **Shopping Cart (Context API)**
 - Add products to cart with Context API state management
@@ -49,8 +59,6 @@ src/
 │   └── Footer.jsx        # Footer with cart summary
 ├── context/
 │   └── CartContext.jsx   # Context for cart management
-├── data/
-│   └── mockProducts.js   # Mock product data
 ├── pages/
 │   ├── HomePage.jsx      # Product grid page
 │   └── ProductDetailPage.jsx  # Product details page
@@ -72,9 +80,6 @@ public/
 ### Installation
 
 ```bash
-# Clone or download the project
-cd v0-project
-
 # Install dependencies
 npm install
 
@@ -140,10 +145,6 @@ Provides global state management for:
 
 ## Future Enhancements
 
-- Remove item from cart functionality
-- Quantity adjustment
-- Search and filter products
-- Checkout page
 - Product reviews and ratings
 - Wishlist feature
 - User authentication
@@ -151,7 +152,6 @@ Provides global state management for:
 
 ## Notes
 
-- Mock product data is used instead of API calls
 - All prices are in USD
 - Cart persists across browser sessions using localStorage
 - No backend server required - fully client-side application
