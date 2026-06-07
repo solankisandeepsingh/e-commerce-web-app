@@ -1,6 +1,6 @@
 # E-Commerce Store with React Context API & TypeScript
 
-A modern e-commerce application built with **React**,**TypeScript** **React Context API**, and **React Router v6**. The app demonstrates state management using Context API with localStorage persistence for cart functionality.
+A modern e-commerce application built with **React**,**TypeScript**, **React Context API**, and **React Router v6**. The app demonstrates state management using Context API with localStorage persistence for cart functionality.
 
 ## Features
 
