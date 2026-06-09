@@ -18,6 +18,9 @@ export default function HomePage() {
     searchParams.get("sort") || ""
   );
 
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.get("category") || ""
+  );
   const debouncedSearch = useDebounce<string>(search, 500);
 
   const apiUrl = debouncedSearch
@@ -30,7 +33,25 @@ export default function HomePage() {
     error,
   } = useApiCall<Product[]>(apiUrl, []);
 
-  const updateQueryParams = (searchValue: string, sortValue: string) => {
+
+
+const categories = Array.from(
+  new Set(
+    products
+      .map((product) => product.category?.name)
+      .filter((name): name is string => Boolean(name))
+  )
+);
+
+
+const filteredProducts = products.filter((product) => {
+  const matchesCategory =
+    selectedCategory === "" ||
+    product.category?.name === selectedCategory;
+
+  return matchesCategory;
+});
+  const updateQueryParams = (searchValue: string, sortValue: string, categoryValue: string) => {
     const params: Record<string, string> = {};
 
     if (searchValue) {
@@ -40,31 +61,51 @@ export default function HomePage() {
     if (sortValue) {
       params.sort = sortValue;
     }
+    if (categoryValue) {
+      params.category = categoryValue;
+    }
 
     setSearchParams(params);
   };
 
   const handleSearch = (value: string) => {
     setSearch(value);
-    updateQueryParams(value, sortBy);
+    updateQueryParams(value, sortBy,selectedCategory);
   };
 
   const handleSort = (value: string) => {
     setSortBy(value);
-    updateQueryParams(search, value);
+    updateQueryParams(search, value,selectedCategory);
   };
 
-  const sortedProducts = [...products].sort((a, b) => {
-    if (sortBy === "price_asc") {
-      return a.price - b.price;
-    }
+ const sortedProducts = [...filteredProducts].sort((a, b) => {
+  if (sortBy === "price_asc") {
+    return a.price - b.price;
+  }
 
-    if (sortBy === "price_desc") {
-      return b.price - a.price;
-    }
+  if (sortBy === "price_desc") {
+    return b.price - a.price;
+  }
 
-    return 0;
-  });
+  return 0;
+});
+
+ const handleCategoryClick = (
+  category: string
+) => {
+  const updatedCategory =
+    selectedCategory === category
+      ? ""
+      : category;
+
+  setSelectedCategory(updatedCategory);
+
+  updateQueryParams(
+    search,
+    sortBy,
+    updatedCategory
+  );
+};
 
   if (loading) {
     return (
@@ -139,6 +180,35 @@ export default function HomePage() {
           </select>
         </div>
       </div>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+  <button
+    onClick={() => handleCategoryClick("")}
+    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+      selectedCategory === ""
+        ? "bg-blue-600 text-white shadow-md"
+        : "bg-gray-100 text-gray-700 hover:bg-blue-50"
+    }`}
+  >
+    All
+  </button>
+
+  {categories.map((category) => (
+    <button
+      key={category}
+      onClick={() => handleCategoryClick(category as string)}
+      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+        selectedCategory === category
+          ? "bg-blue-600 text-white shadow-md"
+          : "bg-gray-100 text-gray-700 hover:bg-blue-50"
+      }`}
+    >
+      {category}
+    </button>
+  ))}
+</div>
+
+      
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {!loading && sortedProducts.length === 0 ? (
