@@ -15,9 +15,11 @@ A modern e-commerce application built with **React**,**TypeScript**, **React Con
 
 🔍 Search & Filtering
 - Real-time product search with debounced API requests for improved performance.
+- filter the products based on the categories
 - Sort products by:
   Price: Low to High
   Price: High to Low
+  
 
 🛒 **Shopping Cart (Context API)**
 - Add products to cart with Context API state management
